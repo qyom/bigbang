@@ -2,6 +2,7 @@
 
 // comment added by Hayk Zakaryan for testing
 // test comment
+// another test comment
 
 // Exit if accessed directly
 if ( !defined('ABSPATH')) exit;
