@@ -1,5 +1,8 @@
 <?php
 
+// comment added by Hayk Zakaryan for testing
+// test comment
+
 // Exit if accessed directly
 if ( !defined('ABSPATH')) exit;
 
