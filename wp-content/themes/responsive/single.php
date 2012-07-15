@@ -104,4 +104,30 @@ if ( !defined('ABSPATH')) exit;
         </div><!-- end of #content -->
 
 <?php get_sidebar(); ?>
+
+<div>
+	<center>
+		<ul>
+  			<?php do_action(
+    		'related_posts_by_category',
+    		array(
+      		'orderby' => 'post_date',
+      		'order' => 'DESC',
+      		'limit' => 5,
+      		'echo' => true,
+      		'before' => '<ul>',
+      		'inside' => '&raquo; ',
+      		'outside' => '',
+      		'after' => '</ul>',
+      		'rel' => 'nofollow',
+      		'type' => 'post',
+      		'image' => array(50, 50),
+      		'message' => 'No matches'
+    		)
+  			) ?>
+		</ul>
+	</center>
+</div>
+
 <?php get_footer(); ?>
+
