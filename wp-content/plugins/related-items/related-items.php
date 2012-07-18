@@ -242,16 +242,19 @@
 						
 					// Otherwise return a formatted list
                                         }else {
-						$list_output = '<div class="related-items"><h3>Related Items</h3><hr>';
-                                                     
+						//$list_output = '<div class="related-items"><h3>Related Items</h3><hr>'; //commented out by HZ 
+                        $list_output = '<div class="related-items"><hr>';  //added by HZ
+                                                   
                                                 foreach ($rel as $related_post) {
                                                      $type = get_post_type_object($related_post->post_type);
                                                      //echo $type->labels->name;
-                                                     $list_data[$type->labels->name] .= '<li><a href="' . get_permalink($related_post->ID) . '">' . $related_post->post_title . '</a></li>';
-                				}
+                                                     //$list_data[$type->labels->name] .= '<li><a href="' . get_permalink($related_post->ID) . '">' . $related_post->post_title . '</a></li>';
+                                                     // above line commented out by HZ
+                                                    $list_data[$type->labels->name] .=   /*get_permalink($related_post->ID) */ "<h3>".$related_post->post_title."</h3>" . "<br/>" . $related_post->post_content . "<br/>";   
+                				}                   // above line added by HZ
                   
                                                 foreach($list_data as $type=>$data){
-                                                  $list_output .= '<h4>'.$type.'</h4>';
+                                                 // $list_output .= '<h4>'.$type.'</h4>';  // commented out by HZ
                                                   $list_output .= '<ul class="related-items">'.$data.'</ul>';
                                                 }
                   
