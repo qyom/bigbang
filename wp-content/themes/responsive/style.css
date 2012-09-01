@@ -2442,3 +2442,29 @@ div#post-10 div.post-meta {display:none}
 div#post-10 h1 {display:none}
 div#content-archive div.breadcrumb-list{display:none;}   /*added by HZ hide the top navigation from category pages*/
 div#content-archive h6{display:none;} /* added by HZ remove archives heading from category pages */
+
+.slider-toggler {
+	cursor: pointer;
+}
+
+.slider-toggler.light {
+	background-image: url("images/closed-arrow.jpg");
+	background-position: 500px 1px;
+}
+.slider-toggler.light {
+	background-image: url("images/closed-arrow.jpg");
+	background-position: 500px 1px;
+}
+
+.slider-toggler.dark.open {
+	background-image: url("images/open-arrow.jpg");
+	background-position: 500px 1px;
+}
+.slider-toggler.dark.open {
+	background-image: url("images/open-arrow.jpg");
+	background-position: 500px 1px;
+}
+
+.slider-content {
+	display:none;
+}

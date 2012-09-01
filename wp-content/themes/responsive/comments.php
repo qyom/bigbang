@@ -18,36 +18,39 @@ if ( !defined('ABSPATH')) exit;
  * @since          available since Release 1.0
  */
 ?>
-<?php if (post_password_required()) { ?>
+<?php if (post_password_required()) : ?>
     <p class="nocomments"><?php _e('This post is password protected. Enter the password to view any comments.', 'responsive'); ?></p>
     
-	<?php return; } ?>
-
+<?php return; endif; ?>
+	
+<h6 id="comments" class="slider-toggler light">
+<?php
+	/*printf( _n('One comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', get_comments_number(), 'responsive'),
+		number_format_i18n( get_comments_number() ), '<span>' . get_the_title() . '</span>');*/
+	printf( __('Comments: ' . get_comments_number() ));
+?>
+</h6>
+<div class="slider-content">
 <?php if (have_comments()) : ?>
-    <h6 id="comments">
-			<?php
-				printf( _n('One comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', get_comments_number(), 'responsive'),
-					number_format_i18n( get_comments_number() ), '<span>' . get_the_title() . '</span>');
-			?>
-    </h6>
-
-    <?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>
-    <div class="navigation">
-        <div class="previous"><?php previous_comments_link(__( '&#8249; Older comments','responsive' )); ?></div><!-- end of .previous -->
-        <div class="next"><?php next_comments_link(__( 'Newer comments &#8250;','responsive', 0 )); ?></div><!-- end of .next -->
-    </div><!-- end of.navigation -->
-    <?php endif; ?>
-
-    <ol class="commentlist">
-        <?php wp_list_comments('avatar_size=60&type=comment'); ?>
-    </ol>
     
-    <?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>
-    <div class="navigation">
-        <div class="previous"><?php previous_comments_link(__( '&#8249; Older comments','responsive' )); ?></div><!-- end of .previous -->
-        <div class="next"><?php next_comments_link(__( 'Newer comments &#8250;','responsive', 0 )); ?></div><!-- end of .next -->
-    </div><!-- end of.navigation -->
-    <?php endif; ?>
+	    <?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>
+	    <div class="navigation">
+	        <div class="previous"><?php previous_comments_link(__( '&#8249; Older comments','responsive' )); ?></div><!-- end of .previous -->
+	        <div class="next"><?php next_comments_link(__( 'Newer comments &#8250;','responsive', 0 )); ?></div><!-- end of .next -->
+	    </div><!-- end of.navigation -->
+	    <?php endif; ?>
+	
+	    <ol class="commentlist">
+	        <?php wp_list_comments('avatar_size=60&type=comment'); ?>
+	    </ol>
+	    
+	    <?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>
+	    <div class="navigation">
+	        <div class="previous"><?php previous_comments_link(__( '&#8249; Older comments','responsive' )); ?></div><!-- end of .previous -->
+	        <div class="next"><?php next_comments_link(__( 'Newer comments &#8250;','responsive', 0 )); ?></div><!-- end of .next -->
+	    </div><!-- end of.navigation -->
+	    <?php endif; ?>
+    
 
 <?php else : ?>
 
@@ -87,3 +90,5 @@ if (!empty($comments_by_type['pings'])) : // let's seperate pings/trackbacks fro
 
 
     <?php endif; ?>
+    
+</div>

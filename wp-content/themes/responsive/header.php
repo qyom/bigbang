@@ -37,6 +37,14 @@ if ( !defined('ABSPATH')) exit;
 <?php wp_enqueue_style('responsive-style', get_stylesheet_uri(), false, '1.5.9');?>
 
 <?php wp_head(); ?>
+
+<script>
+	jQuery(document).ready(function(){
+		jQuery(".slider-toggler").click(function(){
+			jQuery(this).toggleClass('opened').next('.slider-content').toggle();
+		});
+	});
+</script>
 </head>
 
 <body <?php body_class(); ?>>

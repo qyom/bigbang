@@ -33,36 +33,34 @@ if ( !defined('ABSPATH')) exit;
           
             <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                 <h1><?php the_title(); ?></h1>
-                
+
+                <div class="post-meta">
+                <?php 
+                    printf( __( '<span class="%1$s">Posted on</span> %2$s by %3$s', 'responsive' ),'meta-prep meta-prep-author',
+		            sprintf( '<a href="%1$s" title="%2$s" rel="bookmark">%3$s</a>',
+			            get_permalink(),
+			            esc_attr( get_the_time() ),
+			            get_the_date()
+		            ),
+		            sprintf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
+			            get_author_posts_url( get_the_author_meta( 'ID' ) ),
+			        sprintf( esc_attr__( 'View all posts by %s', 'responsive' ), get_the_author() ),
+			            get_the_author()
+		                )
+			        );
+		        ?>
+				    <?php if ( comments_open() ) : ?>
+                        <span class="comments-link">
+                        <span class="mdash">&mdash;</span>
+                    <?php comments_popup_link(__('No Comments &darr;', 'responsive'), __('1 Comment &darr;', 'responsive'), __('% Comments &darr;', 'responsive')); ?>
+                        </span>
+                    <?php endif; ?> 
+                </div><!-- end of .post-meta -->
+                                
                 <div class="post-entry">
-                
                     <?php the_content(__('Read more &#8250;', 'responsive')); ?>
                     
-                    <div class="post-meta">
-	                <?php 
-	                // By  by %3$s meta-prep-author
-	                    printf( __( '<span class="%1$s">Posted on</span> %2$s', 'responsive' ),'meta-prep',
-			            sprintf( '<a href="%1$s" title="%2$s" rel="bookmark">%3$s</a>',
-				            get_permalink(),
-				            esc_attr( get_the_time() ),
-				            get_the_date()
-			            ),
-			            sprintf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
-				            get_author_posts_url( get_the_author_meta( 'ID' ) ),
-				        sprintf( esc_attr__( 'View all posts by %s', 'responsive' ), get_the_author() ),
-				            get_the_author()
-			                )
-				        );
-			        ?>
-					    <?php if ( comments_open() ) : ?>
-	                        <span class="comments-link">
-	                        <span class="mdash">&mdash;</span>
-	                    <?php comments_popup_link(__('No Comments &darr;', 'responsive'), __('1 Comment &darr;', 'responsive'), __('% Comments &darr;', 'responsive')); ?>
-	                        </span>
-	                    <?php endif; ?> 
-	                </div><!-- end of .post-meta -->
-	                
-	                <?php /*if ( get_the_author_meta('description') != '' ) : ?>
+                    <?php if ( get_the_author_meta('description') != '' ) : ?>
                     
                     <div id="author-meta">
                     <?php if (function_exists('get_avatar')) { echo get_avatar( get_the_author_meta('email'), '80' ); }?>
@@ -70,14 +68,14 @@ if ( !defined('ABSPATH')) exit;
                         <p><?php the_author_meta('description') ?></p>
                     </div><!-- end of #author-meta -->
                     
-                    <?php endif; // no description, no author's meta */?>
+                    <?php endif; // no description, no author's meta ?>
                     
                     <?php wp_link_pages(array('before' => '<div class="pagination">' . __('Pages:', 'responsive'), 'after' => '</div>')); ?>
                 </div><!-- end of .post-entry -->
                 
                 <div class="post-data">
 				    <?php the_tags(__('Tagged with:', 'responsive') . ' ', ', ', '<br />'); ?> 
-					<?php /* printf(__('Posted in %s', 'responsive'), get_the_category_list(', ')); */?> 
+					<?php printf(__('Posted in %s', 'responsive'), get_the_category_list(', ')); ?> 
                 </div><!-- end of .post-data -->             
 
             <div class="post-edit"><?php edit_post_link(__('Edit', 'responsive')); ?></div>             

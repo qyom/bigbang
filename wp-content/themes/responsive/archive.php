@@ -3,6 +3,12 @@
 // Exit if accessed directly
 if ( !defined('ABSPATH')) exit;
 
+wp_redirect(get_permalink(get_the_ID()));
+echo get_the_ID();
+echo get_permalink(get_the_ID());
+//query_posts('category_name=shows&showposts=1');
+exit;
+
 /**
  * Archive Template
  *
