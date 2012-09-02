@@ -2474,3 +2474,7 @@ div#content-archive h6{display:none;} /* added by HZ remove archives heading fro
 .slider-content {
 	display:none;
 }
+
+.topics {
+	width: 200px;
+}
