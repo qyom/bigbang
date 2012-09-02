@@ -2452,13 +2452,19 @@ div#content-archive h6{display:none;} /* added by HZ remove archives heading fro
 	background-position: 500px 1px;
 }
 .slider-toggler.light {
-	background-image: url("images/closed-arrow.jpg");
-	background-position: 500px 1px;
+    padding:3px;
+    background-color:#C0C0C0;
+	background-image: url("images/closed-arrow.png");
+	background-repeat:no-repeat;
+	background-position: 570px 3px;
 }
 
-.slider-toggler.dark.open {
-	background-image: url("images/open-arrow.jpg");
-	background-position: 500px 1px;
+.slider-toggler.light.opened {
+    padding:3px;
+    background-color:#C0C0C0;
+	background-image: url("images/open-arrow.png");
+	background-repeat:no-repeat;
+	background-position: 570px 1px;
 }
 .slider-toggler.dark.open {
 	background-image: url("images/open-arrow.jpg");
