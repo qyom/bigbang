@@ -31,11 +31,18 @@ div.related-items {
   margin: 1.5em;
   padding: 1em;
   color: #666;
-  background: #E6E6E6;
+  /*background: #E6E6E6; modified by HZ */
+  background:white;  /* added by HZ   */
   font-style: italic;
-  border: 1px solid gainsboro;
+  /* border: 1px solid gainsboro; modified by HZ */
   border-image: initial;
+  width:120%;  
+  /* added by HZ  */
+  
+  
 }
+
+div.related-items hr {display:none;} /*added by HZ   */
 
 div#related-items-box{
   //border: 1px solid #DFDFDF; 
