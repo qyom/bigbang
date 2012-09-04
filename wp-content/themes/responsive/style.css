@@ -2452,11 +2452,13 @@ div#content-archive h6{display:none;} /* added by HZ remove archives heading fro
 	background-position: 500px 1px;
 }
 .slider-toggler.light {
+    width:900px;
     padding:3px;
     background-color:#C0C0C0;
 	background-image: url("images/closed-arrow.png");
 	background-repeat:no-repeat;
-	background-position: 570px 3px;
+	background-position: 870px 3px;
+	color:black;
 }
 
 .slider-toggler.light.opened {
@@ -2464,7 +2466,7 @@ div#content-archive h6{display:none;} /* added by HZ remove archives heading fro
     background-color:#C0C0C0;
 	background-image: url("images/open-arrow.png");
 	background-repeat:no-repeat;
-	background-position: 570px 1px;
+	background-position: 870px 3px;
 }
 .slider-toggler.dark.open {
 	background-image: url("images/open-arrow.jpg");

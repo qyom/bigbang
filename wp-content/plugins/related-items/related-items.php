@@ -252,7 +252,7 @@
                                                      //$list_data[$type->labels->name] .= '<li><a href="' . get_permalink($related_post->ID) . '">' . $related_post->post_title . '</a></li>';
                                                      // above line commented out by HZ
                                                      
-                                     $list_data[$type->labels->name] .=  /*get_permalink($related_post->ID) */ "<h3 class='slider-toggler light'>".$related_post->post_title."</h3>" . '<div class="slider-content">' . get_post_meta($related_post->ID, 'short_description', true). "<br/>" . "<a href='" . get_permalink($related_post->ID).  "'>Read More</a>"   . "</div>";   
+                                     $list_data[$type->labels->name] .=  /*get_permalink($related_post->ID) */ "<h5 class='slider-toggler light'>".$related_post->post_title."</h5>" . '<div class="slider-content">' . get_post_meta($related_post->ID, 'short_description', true). "<br/>" . "<a href='" . get_permalink($related_post->ID).  "'>Read More</a>"   . "</div>";   
                                                      
                 				}                   // above line added by HZ
                   
