@@ -55,7 +55,7 @@ $permalink = get_permalink();
                 
                 	<?php the_content(__('Read more &#8250;', 'responsive')); ?>
                 
-                    <?php if(function_exists('the_ratings')) { the_ratings(); } ?>
+                    <?php if(function_exists('the_ratings_V')) { the_ratings_V(get_the_ID()); } ?>
                     
                         
                     <div class="post-meta">

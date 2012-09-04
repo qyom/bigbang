@@ -45,7 +45,11 @@ if ( !defined('ABSPATH')) exit;
 		});
 		jQuery('.filterbar .topics').change(function(){
 			this.form.submit();
-		})
+		});
+		jQuery('.filterbar a').click(function(){
+			
+			/* http://wp.smashingmagazine.com/2011/10/18/how-to-use-ajax-in-wordpress/*/
+		});
 	});
 </script>
 </head>
