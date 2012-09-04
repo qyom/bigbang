@@ -4,14 +4,14 @@ var currentAngle;
 
 jQuery(document).ready(function(){
 	
-	window.currentAngle = parseFloat(jQuery(".speedometer").attr('data-average'))*90;
+	currentAngle = parseFloat(0+jQuery(".speedometer").attr('data-average'))*90;	
 	drawCanvas();
 	jQuery(".btn").hover(function(){
-		average = window.currentAngle;
-		count = parseFloat(jQuery(".speedometer").attr('data-count'));
+		average = currentAngle;
+		count = parseFloat(0+jQuery(".speedometer").attr('data-count'));
 		score = jQuery(this).hasClass('rocks') ? 1 : -1;
 		endAngle = 90*(average*count + score)/(count+1) ;
-		animate(endAngle)
+		animate(endAngle);
 	}, function(){
 		drawArrow(angle);
 	});
@@ -20,13 +20,13 @@ jQuery(document).ready(function(){
 
 function drawCanvas() {
     // Get our Canvas element
-    window.surface = document.getElementById("arrow");
+    surface = document.getElementById("arrow");
 
-    if (window.surface.getContext) {
+    if (surface.getContext) {
         // If Canvas is supported, load the image
-        window.arrow = new Image();
-        window.arrow.onload = loadingComplete;
-        window.arrow.src = "/wp-content/themes/responsive/images/rating/arrow.png";
+        arrow = new Image();
+        arrow.onload = loadingComplete;
+        arrow.src = "/wp-content/themes/responsive/images/rating/arrow.png";
     }else{
     	// If doesn't support HTML5 say something!
     	alert("Whaat");
@@ -34,14 +34,14 @@ function drawCanvas() {
 }
 
 function loadingComplete(e) {
-	//alert("arrow laoded" + window.currentAngle);
-	angle = window.currentAngle*90;
+	//alert("arrow laoded" + currentAngle); 
+	angle = currentAngle*90;
     // When the image has loaded begin the loop    
     drawArrow(angle);
 }
 function animate(endAngle) {
 	var iteration = 3;
-	var angle = window.currentAngle*90;
+	var angle = currentAngle*90;
 	
 	var intervalID = setInterval(function(){
 		if(Math.abs(angle-endAngle)<=iteration) {
@@ -57,8 +57,6 @@ function animate(endAngle) {
 
 function drawArrow(angle)
 {
-	surface = window.surface;
-	arrow = window.arrow;
 	 // Each loop we rotate the image
     // Grab the context
     var surfaceContext = surface.getContext('2d');
