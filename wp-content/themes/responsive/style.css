@@ -2486,3 +2486,50 @@ div.post-edit {margin-left:5px}
 	width: 200px;
 }
 
+
+/* Ratings */
+.speedometer {
+	background-image: url(images/rating/meter.jpg);
+	background-position: center;
+	width: 100%;
+	height: 124px;
+	position: relative;
+}
+.btn {
+	width: 120px;
+	height: 33px;
+	margin-top: 72px;
+	cursor: pointer;
+	background-image: url(images/rating/sprite.png);
+}
+.count {
+	margin: 78px 5px 0px 5px;
+	font-size: 25px;
+}
+.rocks{
+	float: right;
+}
+.sucks {
+	float: left;
+}
+.btn.rocks {	
+	background-position: 0px 0px; 
+}
+.btn.rocks:hover {
+	background-position: 0px -83px; 
+}
+.btn.sucks {	
+	background-position: 0 -166px;
+}
+.btn.sucks:hover {
+	background-position: 0 -249px;
+}
+#arrow {
+	position: absolute;
+	left: 50%;
+	bottom: 8px;
+	width: 106px;
+	height: 63px;
+	margin-left: -50px;
+}
+
