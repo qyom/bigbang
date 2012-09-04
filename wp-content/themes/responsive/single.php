@@ -18,7 +18,7 @@ if ( !defined('ABSPATH')) exit;
  * @since          available since Release 1.0
  */
 
-$cat = get_the_right_category();
+$cat = get_the_right_category(get_the_ID());
 $permalink = get_permalink();
 ?>
 <?php get_header(); ?>
