@@ -43,6 +43,9 @@ if ( !defined('ABSPATH')) exit;
 		jQuery(".slider-toggler").click(function(){
 			jQuery(this).toggleClass('opened').next('.slider-content').toggle();
 		});
+		jQuery('.filterbar .topics').change(function(){
+			this.form.submit();
+		})
 	});
 </script>
 </head>

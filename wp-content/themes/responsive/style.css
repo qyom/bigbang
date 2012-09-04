@@ -2477,7 +2477,12 @@ div#content-archive h6{display:none;} /* added by HZ remove archives heading fro
 	display:none;
 }
 
+
 div#respond {width:865px; margin-left:4px}
 h6#comments {height:17px; margin-left:5px}
 div.post-meta {margin-left:5px}
 div.post-edit {margin-left:5px}
+.topics {
+	width: 200px;
+}
+

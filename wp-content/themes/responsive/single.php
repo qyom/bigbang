@@ -17,9 +17,24 @@ if ( !defined('ABSPATH')) exit;
  * @link           http://codex.wordpress.org/Theme_Development#Single_Post_.28single.php.29
  * @since          available since Release 1.0
  */
+
+$cat = get_the_right_category();
+$permalink = get_permalink();
 ?>
 <?php get_header(); ?>
 
+		<div class="filterbar">
+			<span class="category"><?=$cat->name?>:</span> 
+			<a href="<?=add_query_arg(array("cat_id" => $cat->cat_ID), $permalink)?>" <?=(!$_GET['filter'] ? 'class="active"' : '')?>>Recent</a> 
+			<a href="<?=add_query_arg(array("cat_id" => $cat->cat_ID, "filter"=>"upcoming"), $permalink)?>" <?=($_GET['filter']=='upcoming' ? 'class="active"' : '')?>>Upcoming</a> 
+			<a href="<?=add_query_arg(array("cat_id" => $cat->cat_ID, "filter"=>'popular'), $permalink)?>" <?=($_GET['filter']=='popular' ? 'class="active"' : '')?>>Popular</a>
+			<form action="<?=$permalink?>" method="GET" style="display: inline-block">
+			<?wp_dropdown_categories(array('child_of' => get_category_by_slug('_topics')->cat_ID,'selected'=>$_GET['topic'], 'hide_empty' => 0, 'show_option_none'=>'-All Topics-', 'name' => 'topic', 'class' => 'topics'))?>
+			<input type="hidden" name="cat_id" value="<?=$cat->cat_ID?>" />
+			</form>
+			
+		</div>
+		
         <div id="content" class="grid col-620">
         
 <?php if (have_posts()) : ?>
@@ -33,11 +48,16 @@ if ( !defined('ABSPATH')) exit;
           
             <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                 <h1><?php the_title(); ?></h1>
-                
+               
                 <div class="post-entry">
+                 
                 
-                    <?php the_content(__('Read more &#8250;', 'responsive')); ?>
+                
+                	<?php the_content(__('Read more &#8250;', 'responsive')); ?>
+                
+                    <?php if(function_exists('the_ratings')) { the_ratings(); } ?>
                     
+                        
                     <div class="post-meta">
 	                <?php 
 	                // By  by %3$s meta-prep-author
@@ -104,32 +124,9 @@ if ( !defined('ABSPATH')) exit;
 <?php endif; ?>  
       
         </div><!-- end of #content -->
-
-<?php get_sidebar(); ?>
-
-<div>
-	<center>
-		<ul>
-  			<?php do_action(
-    		'related_posts_by_category',
-    		array(
-      		'orderby' => 'post_date',
-      		'order' => 'DESC',
-      		'limit' => 5,
-      		'echo' => true,
-      		'before' => '<ul>',
-      		'inside' => '&raquo; ',
-      		'outside' => '',
-      		'after' => '</ul>',
-      		'rel' => 'nofollow',
-      		'type' => 'post',
-      		'image' => array(50, 50),
-      		'message' => 'No matches'
-    		)
-  			) ?>
-		</ul>
-	</center>
-</div>
+        
+        
+        <?php show_right_joints($cat); ?>
 
 <?php get_footer(); ?>
 

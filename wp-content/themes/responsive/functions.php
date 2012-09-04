@@ -13,3 +13,78 @@ require ( get_template_directory() . '/includes/functions.php' );
 require ( get_template_directory() . '/includes/theme-options.php' );
 require ( get_template_directory() . '/includes/hooks.php' );
 require ( get_template_directory() . '/includes/version.php' );
+
+function show_right_joints($cat)
+{
+	$post_id = get_the_ID();
+	if(!$cat) {
+		$cat = get_the_right_category($post_id);
+	}
+	$categories = array($cat->cat_ID);
+	if($_GET['topic'] && $_GET['topic']!='-1') {
+		$categories[] = intval($_GET['topic']);
+	}
+	//var_dump($categories);
+	if($_GET['filter'] == 'upcoming') {
+		$categories[] = get_category_by_slug("_upcoming")->cat_ID;
+	}
+	//query_posts(array(''=>array(2,6)));
+	$arg = array(
+            'category__and' => $categories,
+            'numberposts' => 100,
+            'orderby' => 'date',
+            'order' => (!empty($_GET['sort_order'])? 'ASC' : 'DESC'),
+            'exclude' => array($post_id),
+            //'post__not_in' => $op['exclude']
+        );
+
+    $posts = get_posts($arg);
+    // echo "POSTS: " . count($posts) . "<br>";	
+    foreach ($posts as $post) {
+    	
+    	//echo "POSTID: " . $post->ID . "<br>";	
+    	echo get_post_item($post, $cat);
+    }
+}
+
+function get_the_right_category($post_id)
+{
+	if($cat_id = @$_GET['cat_id']) {
+		return get_category($cat_id);
+	}
+	
+	$categories = get_the_category($post_id);
+	foreach ($categories as $category) {
+		if($category->slug[0] != '_') {
+			return $category;
+		}
+	}
+	//echo"<pre>";var_dump($categories);echo "</pre>";exit;
+	return $categories[0];
+}
+
+function get_post_item($post, $cat)
+{
+	$video_thumbnail = get_post_meta($post->ID, 'video_thumbnail', true);
+	$short_desc = get_post_meta($post->ID, 'short_description', true);
+	//var_dump($post);
+	$output = "";
+	// If it's a video type
+	if($video_thumbnail) {
+		$output .= '<img src="' . $video_thumbnail . '" width="" height="" />' .
+		'<div class="video-info">' . 
+		'<a href="'.get_permalink($post).'">' . $post->post_title . '</a><br>'.
+		$cat->slug .'<br>'.
+		date('m/d/Y', $post->post_date) . 
+		'</div>';
+	}else {
+		$output .= 
+		'<div class="text-info">' . 
+		'<a href="'.get_permalink($post).'">' . $post->post_title . '</a><br>'.
+		$cat->slug .'<br>'.
+		date('m/d/Y', $post->post_date) . 
+		'</div>';
+	}
+	$output .= "<br>";
+	return $output;
+}

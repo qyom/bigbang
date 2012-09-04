@@ -2,11 +2,11 @@
 
 // Exit if accessed directly
 if ( !defined('ABSPATH')) exit;
+//var_dump($_GET);
+//echo get_the_ID();
 
-wp_redirect(get_permalink(get_the_ID()));
-echo get_the_ID();
-echo get_permalink(get_the_ID());
 //query_posts('category_name=shows&showposts=1');
+wp_redirect(add_query_arg(array("cat_id" => $_GET['cat']), get_permalink(get_the_ID())));
 exit;
 
 /**
