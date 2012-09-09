@@ -28,15 +28,21 @@ function show_right_joints($cat)
 	if($_GET['filter'] == 'upcoming') {
 		$categories[] = get_category_by_slug("_upcoming")->cat_ID;
 	}
+	
 	//query_posts(array(''=>array(2,6)));
 	$arg = array(
-            'category__and' => $categories,
-            'numberposts' => 100,
-            'orderby' => 'date',
-            'order' => (!empty($_GET['sort_order'])? 'ASC' : 'DESC'),
-            'exclude' => array($post_id),
-            //'post__not_in' => $op['exclude']
-        );
+        'category__and' => $categories,
+        'numberposts' => 100,
+        'orderby' => ($_GET['filter']=='popular'? 'ratings_average': 'date'),
+        'order' => (!empty($_GET['sort_order'])? 'ASC' : 'DESC'),
+        'exclude' => array($post_id),
+        'meta_key' => 'ratings_average',
+        //'post__not_in' => $op['exclude']
+    );
+    
+    if($_GET['filter'] == 'popular') {
+		$categories[] = get_category_by_slug("_upcoming")->cat_ID;
+	}
 
     $posts = get_posts($arg);
     // echo "POSTS: " . count($posts) . "<br>";	
@@ -65,8 +71,15 @@ function get_the_right_category($post_id)
 
 function get_post_item($post, $cat)
 {
-	$video_thumbnail = get_post_meta($post->ID, 'video_thumbnail', true);
-	$short_desc = get_post_meta($post->ID, 'short_description', true);
+	$meta = get_post_meta($post->ID, '', true);
+	/*echo "<pre>";
+	var_dump($meta);
+	echo "</pre>";	*/
+	$short_desc = @$meta['short_description'][0];
+	$video_thumbnail = @$meta['video_thumbnail'][0];
+	$sucks = intval(@$meta['ratings_sucks'][0]);
+	$rocks = intval(@$meta['ratings_rocks'][0]);
+	
 	//var_dump($post);
 	$output = "";
 	// If it's a video type
@@ -82,6 +95,8 @@ function get_post_item($post, $cat)
 		'<div class="text-info">' . 
 		'<a href="'.get_permalink($post).'">' . $post->post_title . '</a><br>'.
 		$cat->slug .'<br>'.
+		'Rocks#: ' . $rocks . '<br>' .
+		'Sucks#: ' . $sucks . '<br>' . 
 		date('m/d/Y', $post->post_date) . 
 		'</div>';
 	}

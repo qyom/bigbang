@@ -1374,7 +1374,7 @@ function get_posts($args = null) {
 		'exclude' => array(), 'meta_key' => '',
 		'meta_value' =>'', 'post_type' => 'post',
 		'suppress_filters' => true
-	);
+	); 
 
 	$r = wp_parse_args( $args, $defaults );
 	if ( empty( $r['post_status'] ) )

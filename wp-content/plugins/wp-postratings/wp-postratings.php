@@ -665,9 +665,21 @@ function process_ratings() {
 					if(!update_post_meta($post_id, 'ratings_average', $post_ratings_average)) {
 						add_post_meta($post_id, 'ratings_average', $post_ratings_average, true);	
 					}
+					
+					$aggr = get_post_rating_breakdown($post_id);
+					$breakdown = $aggr->breakdown;
+					
+					//echo "<br><br>";var_dump($breakdown);
+					if(!update_post_meta($post_id, 'ratings_sucks', $breakdown["-1"]->count)) {
+						add_post_meta($post_id, 'ratings_sucks',  $breakdown["-1"]->count, true);	
+					}
+					if(!update_post_meta($post_id, 'ratings_rocks',  $breakdown["1"]->count)) {
+						add_post_meta($post_id, 'ratings_rocks',  $breakdown["1"]->count, true);	
+					}
+					
 					// Output AJAX Result
 					//echo the_ratings_results($post_id, $post_ratings_users, $post_ratings_score, $post_ratings_average);
-					echo json_encode(get_post_rating_breakdown($post_id));
+					echo json_encode($aggr);
 					exit();
 				} else {
 					printf(__('Invalid Post ID. Post ID #%s.', 'wp-postratings'), $post_id);
