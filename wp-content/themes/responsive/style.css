@@ -2485,12 +2485,21 @@ h6#comments {margin-left:5px}
 }
 
 /* Ratings */
+
 .speedometer {
-	background-image: url(images/rating/meter.jpg);
-	background-position: center;
 	width: 100%;
 	height: 124px;
 	position: relative;
+}
+.speedometer .bg {
+	background-image: url(images/rating/meter.png);
+	background-position: center;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left:0;
+	z-index:2;
 }
 .btn {
 	width: 120px;
@@ -2498,6 +2507,8 @@ h6#comments {margin-left:5px}
 	margin-top: 72px;
 	cursor: pointer;
 	background-image: url(images/rating/sprite.png);
+	position: relative;
+	z-index: 3;
 }
 .count {
 	margin: 78px 5px 0px 5px;
@@ -2524,8 +2535,9 @@ h6#comments {margin-left:5px}
 #arrow {
 	position: absolute;
 	left: 50%;
-	bottom: 8px;
-	width: 106px;
-	height: 63px;
-	margin-left: -50px;
+	bottom: 8px; 
+	width: 220px;
+	height: 110px;
+	margin-left: -100px;
+	z-index:1;
 }

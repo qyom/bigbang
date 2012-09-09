@@ -75,16 +75,15 @@ function the_ratings_V($post_id) {
 	wp_enqueue_script( 'rating_script' );
 
 	echo '
-	<div class="speedometer" data-average="'.$rating_data->average.'" data-count="'.$rating_data->count.'">
-		<div class="btn sucks"></div>
-		<div class="count sucks">'.$rating_data->breakdown['-1']->count.'</div>
+	<div class="speedometer" data-average="'.floatval($rating_data->average).'" data-count="'.intval($rating_data->count).'" data-post_id="'.$post_id.'" data-nonce="'.wp_create_nonce('postratings_'.$post_id.'-nonce').'">
 		
-		<canvas id="arrow">
-           heeeeeeeeeeeey 
-        </canvas>
+		<div class="btn sucks" data-rate="-1"></div>
+		<div class="count sucks">'.intval($rating_data->breakdown['-1']->count).'</div>
+		<div class="btn rocks" data-rate="1"></div>
+		<div class="count rocks">'.intval($rating_data->breakdown['1']->count).'</div>
 		
-		<div class="btn rocks"></div>
-		<div class="count rocks">'.$rating_data->breakdown['1']->count.'</div>
+		<div class="bg"></div>
+		<canvas id="arrow">No HTML5 Support</canvas>
 	</div>'; 
 }
 
@@ -598,7 +597,7 @@ function process_ratings() {
 			exit();
 		}
 		
-		if($rate > 0 && $post_id > 0 && check_allowtorate()) {		
+		if($post_id > 0 && check_allowtorate()) {		
 			// Check For Bot
 			$bots_useragent = array('googlebot', 'google', 'msnbot', 'ia_archiver', 'lycos', 'jeeves', 'scooter', 'fast-webcrawler', 'slurp@inktomi', 'turnitinbot', 'technorati', 'yahoo', 'findexa', 'findlinks', 'gaisbo', 'zyborg', 'surveybot', 'bloglines', 'blogsearch', 'ubsub', 'syndic8', 'userland', 'gigabot', 'become.com');
 			$useragent = $_SERVER['HTTP_USER_AGENT'];
@@ -609,36 +608,25 @@ function process_ratings() {
 			}
 			header('Content-Type: text/html; charset='.get_option('blog_charset').'');
 			postratings_textdomain();
-			$rated = check_rated($post_id);
+			/*$rated = check_rated($post_id);
 			// Check Whether Post Has Been Rated By User
-			if(!$rated) {
+			if(!$rated) {*/
 				// Check Whether Is There A Valid Post
 				$post = get_post($post_id);
+				
 				// If Valid Post Then We Rate It
 				if($post && !wp_is_post_revision($post)) {
+					
 					$ratings_max = intval(get_option('postratings_max'));
 					$ratings_custom = intval(get_option('postratings_customrating'));
 					$ratings_value = get_option('postratings_ratingsvalue');
 					$post_title = addslashes($post->post_title);
-					$post_ratings = get_post_custom($post_id);
-					$post_ratings_users = intval($post_ratings['ratings_users'][0]);
-					$post_ratings_score = intval($post_ratings['ratings_score'][0]);	
-					// Check For Ratings Lesser Than 1 And Greater Than $ratings_max
-					if($rate < 1 || $rate > $ratings_max) {
+					
+					// Check For Ratings Lesser Than -1 And Greater Than $ratings_max
+					if($rate < -1 || $rate > $ratings_max) {
 						$rate = 0;
 					}
-					$post_ratings_users = ($post_ratings_users+1);
-					$post_ratings_score = ($post_ratings_score+intval($ratings_value[$rate-1]));
-					$post_ratings_average = round($post_ratings_score/$post_ratings_users, 2);
-					if (!update_post_meta($post_id, 'ratings_users', $post_ratings_users)) {
-						add_post_meta($post_id, 'ratings_users', $post_ratings_users, true);
-					}
-					if(!update_post_meta($post_id, 'ratings_score', $post_ratings_score)) {
-						add_post_meta($post_id, 'ratings_score', $post_ratings_score, true);
-					}
-					if(!update_post_meta($post_id, 'ratings_average', $post_ratings_average)) {
-						add_post_meta($post_id, 'ratings_average', $post_ratings_average, true);	
-					}
+					
 					// Add Log
 					if(!empty($user_identity)) {
 						$rate_user = addslashes($user_identity);
@@ -651,21 +639,44 @@ function process_ratings() {
 					// Only Create Cookie If User Choose Logging Method 1 Or 3
 					$postratings_logging_method = intval(get_option('postratings_logging_method'));
 					if($postratings_logging_method == 1 || $postratings_logging_method == 3) {
-						$rate_cookie = setcookie("rated_".$post_id, $ratings_value[$rate-1], time() + 30000000, COOKIEPATH);
+						$rate_cookie = setcookie("rated_".$post_id, $rate, time() + 30000000, COOKIEPATH);
 					}
 					// Log Ratings No Matter What
-					$rate_log = $wpdb->query("INSERT INTO $wpdb->ratings VALUES (0, $post_id, '$post_title', ".$ratings_value[$rate-1].",'".current_time('timestamp')."', '".get_ipaddress()."', '".esc_attr(@gethostbyaddr(get_ipaddress()))."' ,'$rate_user', $rate_userid)");
+					$rate_log = $wpdb->query("INSERT INTO $wpdb->ratings VALUES (0, $post_id, '$post_title', ".$rate.",'".current_time('timestamp')."', '".get_ipaddress()."', '".esc_attr(@gethostbyaddr(get_ipaddress()))."' ,'$rate_user', $rate_userid) ON DUPLICATE KEY UPDATE rating_rating=".$rate);
+					
+					$sql = "SELECT SUM(rating_rating) AS `sum`, AVG(rating_rating) AS `avg`, COUNT(rating_id) AS `count` FROM $wpdb->ratings WHERE rating_postid=$post_id";
+					
+					$result = $wpdb->get_results($sql);
+					
+					$post_ratings_users = intval($result[0]->count);					
+					$post_ratings_score = intval($result[0]->sum);
+					$post_ratings_average = intval($result[0]->avg);
+					//var_dump($result);exit;
+					//$post_ratings_average = round($post_ratings_score/$post_ratings_users, 2);					
+					if(!$post_ratings_users) { 
+						throw new Exception("Oh snap, Devision by zero");
+					}
+					if (!update_post_meta($post_id, 'ratings_users', $post_ratings_users)) {
+						add_post_meta($post_id, 'ratings_users', $post_ratings_users, true);
+					}
+					if(!update_post_meta($post_id, 'ratings_score', $post_ratings_score)) {
+						add_post_meta($post_id, 'ratings_score', $post_ratings_score, true);
+					}
+					if(!update_post_meta($post_id, 'ratings_average', $post_ratings_average)) {
+						add_post_meta($post_id, 'ratings_average', $post_ratings_average, true);	
+					}
 					// Output AJAX Result
-					echo the_ratings_results($post_id, $post_ratings_users, $post_ratings_score, $post_ratings_average);
+					//echo the_ratings_results($post_id, $post_ratings_users, $post_ratings_score, $post_ratings_average);
+					echo json_encode(get_post_rating_breakdown($post_id));
 					exit();
 				} else {
 					printf(__('Invalid Post ID. Post ID #%s.', 'wp-postratings'), $post_id);
 					exit();
 				} // End if($post)
-			} else {
+			/*} else {
 				printf(__('You Had Already Rated This Post. Post ID #%s.', 'wp-postratings'), $post_id);
 				exit();	
-			}// End if(!$rated)
+			}// End if(!$rated)*/
 		} // End if($rate && $post_id && check_allowtorate())
 	} // End if(isset($_GET['action']) && $_GET['action'] == 'postratings')
 }
