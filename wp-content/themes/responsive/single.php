@@ -24,12 +24,13 @@ $permalink = get_permalink();
 
 <?php get_header(); ?>
 
-<div id="host_image_name">
+
 
 <?php
   //if(get_the_category_by_ID( $cat->cat_ID ) == "HOSTS") {
   $hosts_cat_id = get_category_by_slug('hosts')->cat_ID;
    if (cat_is_ancestor_of( $hosts_cat_id, $cat->cat_ID ) ){ 	
+   	echo '<div id="host_image_name">';
    $sub_cats = get_categories(array( 'child_of' => $hosts_cat_id, 'hide_empty' => 0, ));     
    if($sub_cats){ 
    foreach($sub_cats as $sub_cat) {
@@ -47,9 +48,8 @@ $permalink = get_permalink();
      <?php
      }
    }
+   echo "</div>";
  } 
- 
-echo "</div>";
  
 ?>
 
