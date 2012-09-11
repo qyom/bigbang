@@ -21,16 +21,46 @@ if ( !defined('ABSPATH')) exit;
 $cat = get_the_right_category(get_the_ID());
 $permalink = get_permalink();
 ?>
+
 <?php get_header(); ?>
 
+
+
+<?php
+  //if(get_the_category_by_ID( $cat->cat_ID ) == "HOSTS") {
+  $hosts_cat_id = get_category_by_slug('hosts')->cat_ID;
+   if (cat_is_ancestor_of( $hosts_cat_id, $cat->cat_ID ) ){ 	
+   	echo '<div id="host_image_name">';
+   $sub_cats = get_categories(array( 'child_of' => $hosts_cat_id, 'hide_empty' => 0, ));     
+   if($sub_cats){ 
+   foreach($sub_cats as $sub_cat) {
+   //echo $sub_cat->term_id.' '.$sub_cat->name.'<br/>'; //sub cat(s)  	  	  	
+  	//echo "We are in hosts";
+  	 $imageURL = z_taxonomy_image_url( $sub_cat->cat_ID);   	 
+     //echo  '<img src="' . $imageURL . '" />';     
+     $category_link = get_category_link( $category_id );   
+      echo "<div class='host_names'>" . $sub_cat->name . "</div>";     
+     ?>     
+     <div class="host_images"><a href="<?php echo add_query_arg(array("cat_id" =>$sub_cat->cat_ID), $permalink); ?>" title="Category Name"><img src="<?php echo $imageURL;  ?>" /></a></div>     
+     
+
+     
+     <?php
+     }
+   }
+   echo "</div>";
+ } 
+ 
+?>
+
 		<div class="filterbar">
-			<span class="category"><?=$cat->name?>:</span> 
-			<a href="<?=add_query_arg(array("cat_id" => $cat->cat_ID), $permalink)?>" <?=(!$_GET['filter'] ? 'class="active"' : '')?>>Recent</a> 
-			<a href="<?=add_query_arg(array("cat_id" => $cat->cat_ID, "filter"=>"upcoming"), $permalink)?>" <?=($_GET['filter']=='upcoming' ? 'class="active"' : '')?>>Upcoming</a> 
-			<a href="<?=add_query_arg(array("cat_id" => $cat->cat_ID, "filter"=>'popular'), $permalink)?>" <?=($_GET['filter']=='popular' ? 'class="active"' : '')?>>Popular</a>
-			<form action="<?=$permalink?>" method="GET" style="display: inline-block">
-			<?wp_dropdown_categories(array('child_of' => get_category_by_slug('_topics')->cat_ID,'selected'=>$_GET['topic'], 'hide_empty' => 0, 'show_option_none'=>'-All Topics-', 'name' => 'topic', 'class' => 'topics'))?>
-			<input type="hidden" name="cat_id" value="<?=$cat->cat_ID?>" />
+			<span class="category"><?php echo $cat->name?>:</span> 
+			<a href="<?php echo add_query_arg(array("cat_id" => $cat->cat_ID), $permalink)?>" <?php echo (!$_GET['filter'] ? 'class="active"' : '')?>>Recent</a> 
+			<a href="<?php echo add_query_arg(array("cat_id" => $cat->cat_ID, "filter"=>"upcoming"), $permalink)?>" <?php echo ($_GET['filter']=='upcoming' ? 'class="active"' : '')?>>Upcoming</a> 
+			<a href="<?php echo add_query_arg(array("cat_id" => $cat->cat_ID, "filter"=>'popular'), $permalink)?>" <?php echo ($_GET['filter']=='popular' ? 'class="active"' : '')?>>Popular</a>
+			<form action="<?php echo $permalink?>" method="GET" style="display: inline-block">
+			<?php wp_dropdown_categories(array('child_of' => get_category_by_slug('_topics')->cat_ID,'selected'=>$_GET['topic'], 'hide_empty' => 0, 'show_option_none'=>'-All Topics-', 'name' => 'topic', 'class' => 'topics'))?>
+			<input type="hidden" name="cat_id" value="<?php echo  $cat->cat_ID?>" />
 			</form>
 			
 		</div>
