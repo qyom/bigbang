@@ -2447,7 +2447,7 @@ div#content-archive h6{display:none;} /* added by HZ remove archives heading fro
  /*start positioning For right side thumbnails */
 #right_thumbs {
  position: absolute;
- top:10px;
+ top:100px;
  right:0px;
  width:300px;
  overflow: auto;
