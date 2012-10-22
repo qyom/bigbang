@@ -18,6 +18,12 @@ if ( !defined('ABSPATH')) exit;
  * @since          available since Release 1.0
  */
 
+
+//var_dump($rel->show($related_post->ID));
+//echo "<br/>";
+//$dir = bloginfo('url') . '/wp-content/plugins/related-items/related-items.php'; 
+//include($dir);
+
 $cat = get_the_right_category(get_the_ID());
 $permalink = get_permalink();
 ?>
@@ -28,7 +34,7 @@ $permalink = get_permalink();
 
 <?php
   //if(get_the_category_by_ID( $cat->cat_ID ) == "HOSTS") {
-  $hosts_cat_id = get_category_by_slug('hosts')->cat_ID;
+  $hosts_cat_id = get_category_by_slug('hosts')->cat_ID; 
    if (cat_is_ancestor_of( $hosts_cat_id, $cat->cat_ID ) ){ 	
    	echo '<div id="host_image_name">';
    $sub_cats = get_categories(array( 'child_of' => $hosts_cat_id, 'hide_empty' => 0, ));     
@@ -77,25 +83,47 @@ $permalink = get_permalink();
         <?php endif; ?> 
           
             <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-                <h1><?php the_title(); ?></h1>
                
+							
+						<!-- start added by Hayk Zakaryan moved the h1 title piece below -->  							   
+						
+						 												
                 <div class="post-entry">
-                 
+			
+		<!-- id our_content added by HZ -->	
+			
+			<div id="our_content">	
+            <h1><?php the_title(); ?></h1> 	                                 
+          <?php  the_content(__('Read more &#8250;', 'responsive')); ?>		  		  		  
+		     </div>
+			 
+			 <div id="right_thumbs">
+        <?php show_right_joints($cat); ?>
+        </div>					
+			 
+			<script type="text/javascript">
+			jQuery(document).ready(function() {
+       var leftHeight = jQuery('#our_content').height();
+	   console.log(leftHeight);
+       jQuery('#right_thumbs').css({'height':leftHeight + 'px'});
+       });
+			</script> 
+			 
+			 <!-- below code added by HZ for separing related items from content -->
+			 <?php   
+		  $rel = new Related_Items();
+          echo $rel->show($id);
+		   ?>
                 
-                
-                	<?php the_content(__('Read more &#8250;', 'responsive')); ?>
-                
-                    <?php if(function_exists('the_ratings_V')) { the_ratings_V(get_the_ID()); } ?>
-                    
-                        
-                    <div class="post-meta">
+                    <?php if(function_exists('the_ratings_V')) { the_ratings_V(get_the_ID()); } ?>                          
+                    <div class="post-meta">																				 
 	                <?php 
 	                // By  by %3$s meta-prep-author
 	                    printf( __( '<span class="%1$s">Posted on</span> %2$s', 'responsive' ),'meta-prep',
 			            sprintf( '<a href="%1$s" title="%2$s" rel="bookmark">%3$s</a>',
 				            get_permalink(),
 				            esc_attr( get_the_time() ),
-				            get_the_date()
+				            get_the_date()										
 			            ),
 			            sprintf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
 				            get_author_posts_url( get_the_author_meta( 'ID' ) ),
@@ -154,9 +182,9 @@ $permalink = get_permalink();
 <?php endif; ?>  
       
         </div><!-- end of #content -->
+       
+			  
         
-        
-        <?php show_right_joints($cat); ?>
-
+			 
 <?php get_footer(); ?>
 

@@ -164,7 +164,7 @@ function get_the_guid( $id = 0 ) {
  */
 function the_content($more_link_text = null, $stripteaser = false) {
 	$content = get_the_content($more_link_text, $stripteaser);
-	$content = apply_filters('the_content', $content);
+	//$content = apply_filters('the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);
 	echo $content;
 }

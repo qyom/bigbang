@@ -2442,7 +2442,18 @@ div#post-10 div.post-meta {display:none}
 div#post-10 h1 {display:none}
 div#content-archive div.breadcrumb-list{display:none;}   /*added by HZ hide the top navigation from category pages*/
 div#content-archive h6{display:none;} /* added by HZ remove archives heading from category pages */
-
+ /* div.video-info{float:left;width:800px;} */
+ 
+ /*start positioning For right side thumbnails */
+#right_thumbs {
+ position: absolute;
+ top:10px;
+ right:0px;
+ width:300px;
+ overflow: auto;
+ */
+	}
+/*  end for right side thumbnails */
 .slider-toggler {
 	cursor: pointer;
 }
