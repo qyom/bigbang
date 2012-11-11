@@ -2447,23 +2447,33 @@ div#content-archive h6{display:none;} /* added by HZ remove archives heading fro
  /*start positioning For right side thumbnails */
 #right_thumbs {
  position: absolute;
- top:100px;
- right:0px;
+ top:55px;
+ right:27px;
  width:300px;
- overflow: auto;
+ background-color: #ADD8E6;
+ overflow:auto;    
 	}	
 /*  end for right side thumbnails */
 /* add border to the right of main content area  */
-#our_content{
-	border-right:1px solid black;
+#our_content{	
+    position:relative;
+    bottom:28px;
 	padding-right:10px;
+	margin-left:10px;
+	
+	
 }
 
 #right_thumbs img {
 	float:left;
+	clear:left;
+	padding:10px;
 }
 #right_thumbs div.video-info{
-	clear:left;
+    width:100px; 
+	float:left;
+	padding:10px;
+	
 }
 
 .slider-toggler {
@@ -2572,6 +2582,9 @@ div.post-edit {margin-left:5px}
 div#host_image_name{width:100%;height:180px;} 
 .host_images { float:left; padding:0px; margin-top:30px; margin-right:-100px; position:relative; right:120px }
 .host_names {float:left; font-weight:bold; width:100px; margin-left:20px; position:relative; left:10px; top:5px}
-div.filterbar {clear:both}
+div.filterbar a {font-weight:bold; padding-right:35px;}
+div.filterbar span.category {color:black;padding-left:15px; font-weight:bold;padding-right:31px}
+div.filterbar {padding:2px;height:px;margin-top:33px; margin-left:11px;width:896px; background-color:#ADD8E6;clear:both}
+div.filterbar form {margin:0px}
 #menu-item-344 {position: relative;left:390px;}
 #menu-item-349 {position: relative;left:390px;}	
