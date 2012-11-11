@@ -2447,7 +2447,7 @@ div#content-archive h6{display:none;} /* added by HZ remove archives heading fro
  /*start positioning For right side thumbnails */
 #right_thumbs {
  position: absolute;
- top:55px;
+ top:48px;
  right:27px;
  width:300px;
  background-color: #ADD8E6;
@@ -2475,6 +2475,12 @@ div#content-archive h6{display:none;} /* added by HZ remove archives heading fro
 	padding:10px;
 	
 }
+
+#right_thumbs div.text-info
+ {
+ width:120px;
+ padding-left:50px;
+ }
 
 .slider-toggler {
 	cursor: pointer;
