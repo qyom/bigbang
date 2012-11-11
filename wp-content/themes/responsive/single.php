@@ -103,9 +103,11 @@ $permalink = get_permalink();
 			 
 			<script type="text/javascript">
 			jQuery(document).ready(function() {
-       var leftHeight = jQuery('#our_content').height() + jQuery('.speedometer').height() + '20px';
+       var leftHeight = jQuery('#our_content').height();
+       var speedometerheight  = jQuery('.speedometer').height();       
 	   console.log(leftHeight);
-       jQuery('#right_thumbs').css({'height':leftHeight + 'px'});
+       //jQuery('#right_thumbs').css({'height':leftHeight + 'px'});
+       jQuery('#right_thumbs').css({'height':leftHeight + '1.26' * speedometerheight + 'px'});
        });
 			</script> 
 			 
